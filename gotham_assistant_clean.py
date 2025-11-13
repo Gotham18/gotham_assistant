@@ -120,12 +120,16 @@ st.title(APP_TITLE)
 
 with st.sidebar:
     st.subheader("Settings")
-    st.session_state.setdefault("openai_model", "gpt-4o-mini")
+    st.session_state.setdefault("openai_model", "llama3-8b-8192")
     st.session_state["openai_model"] = st.selectbox(
-        "Model",
-        options=["gpt-4o-mini", "gpt-4o", "gpt-4.1-mini"],
-        index=["gpt-4o-mini", "gpt-4o", "gpt-4.1-mini"].index(st.session_state["openai_model"]),
-    )
+    "Model",
+    options=[
+        "llama3-8b-8192",     # Fast and free, best default
+        "mixtral-8x7b-32768", # Bigger, more powerful
+        "gemma-7b-it"         # Smaller, instruction-tuned
+    ],
+    index=0,
+)
     st.session_state["temperature"] = st.slider("Temperature", 0.0, 1.0, st.session_state.get("temperature", 0.3))
     anonymize_clients = st.toggle("Anonymize known clients", value=True, help="Redacts configured client names")
     cap_chars = st.number_input("Character cap (0 = off)", min_value=0, max_value=100000, value=0, step=100)
