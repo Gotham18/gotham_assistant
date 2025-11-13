@@ -14,17 +14,19 @@ APP_TITLE = "Gotham Assistant"
 DATA_DIR = Path(".cache")
 DATA_DIR.mkdir(exist_ok=True)
 
-# Prefer Streamlit secrets, then environment variable
-OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
-if not OPENAI_API_KEY:
-    st.error("Missing OPENAI_API_KEY. Add it in Streamlit secrets or as an environment variable.")
+# =====================
+# API Setup (Groq)
+# =====================
+GROQ_API_KEY = st.secrets.get("GROQ_API_KEY") or os.getenv("GROQ_API_KEY")
+if not GROQ_API_KEY:
+    st.error("Missing GROQ_API_KEY. Add it in Streamlit secrets or as an environment variable.")
     st.stop()
 
-OPENAI_API_KEY = st.secrets.get("GROQ_API_KEY") or os.getenv("GROQ_API_KEY")
 client = OpenAI(
-    api_key=OPENAI_API_KEY,
+    api_key=GROQ_API_KEY,
     base_url="https://api.groq.com/openai/v1"
 )
+
 
 # =====================
 # Utilities
