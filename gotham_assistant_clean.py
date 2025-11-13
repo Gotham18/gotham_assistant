@@ -81,10 +81,11 @@ def redact_pii(text: str) -> str:
 # Prompting
 # =====================
 SYSTEM_PROMPT = (
-    "You are Gotham Assistant, a helpful analyst. "
-    "Be concise, concrete, and cite data if provided. "
-    "When anonymization is enabled, never reveal specific client names—replace them with 'Fortune 500 brand'."
+    "You are Gotham Assistant, an AI analyst with a professional but friendly tone. "
+    "Keep responses concise, engaging, and natural — like a helpful colleague. "
+    "When anonymization is enabled, refer to any client as 'the Fortune 500 brand'."
 )
+
 
 def build_api_messages(user_text: str, context_block: str, template_msg: str, history: List[Dict[str, str]]):
     messages: List[Dict[str, str]] = [{"role": "system", "content": SYSTEM_PROMPT}]
