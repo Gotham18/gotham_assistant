@@ -120,13 +120,13 @@ st.title(APP_TITLE)
 
 with st.sidebar:
     st.subheader("Settings")
-    st.session_state.setdefault("openai_model", "llama3-8b-8192")
+    st.session_state.setdefault("openai_model", "llama-3.1-8b-instant")
     st.session_state["openai_model"] = st.selectbox(
     "Model",
     options=[
-        "llama3-8b-8192",     # Fast and free, best default
-        "mixtral-8x7b-32768", # Bigger, more powerful
-        "gemma-7b-it"         # Smaller, instruction-tuned
+        "llama-3.1-8b-instant",   # best free default
+        "llama-3.3-70b-versatile", # large and powerful
+        "gemma2-9b-it"             # smaller, tuned for instructions
     ],
     index=0,
 )
