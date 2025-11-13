@@ -156,7 +156,26 @@ if user_text:
     history_only = [m for m in st.session_state["messages"] if m["role"] in ("user", "assistant")]
     trimmed_history = history_only[-MAX_HISTORY_TURNS:]
 
-    api_messages = buil_
+    api_messages = build_api_messages(user_text=user_text, context_block=context_block, template_msg=template_msg, history=trimmed_history)
 
+    with st.chat_message("assistant"):
+        response_chunks = stream_chat_completion(api_messages)
+        response_text = st.write_stream(response_chunks) or ""
 
+        if anonymize_clients:
+            response_text = anonymize_known_clients(response_text, on=True)
+        response_text = redact_pii(response_text)
+        response_text = soft_clip(response_text, cap_chars)
+        st.markdown(response_text)
 
+        st.download_button(
+            label="Download reply (.md)",
+            data=response_text.encode("utf-8"),
+            file_name="gotham_assistant_reply.md",
+            mime="text/markdown",
+        )
+
+    st.session_state["messages"].extend([
+        {"role": "user", "content": user_text},
+        {"role": "assistant", "content": response_text},
+    ])
