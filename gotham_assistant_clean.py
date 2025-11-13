@@ -20,7 +20,11 @@ if not OPENAI_API_KEY:
     st.error("Missing OPENAI_API_KEY. Add it in Streamlit secrets or as an environment variable.")
     st.stop()
 
-client = OpenAI(api_key=OPENAI_API_KEY)
+OPENAI_API_KEY = st.secrets.get("GROQ_API_KEY") or os.getenv("GROQ_API_KEY")
+client = OpenAI(
+    api_key=OPENAI_API_KEY,
+    base_url="https://api.groq.com/openai/v1"
+)
 
 # =====================
 # Utilities
