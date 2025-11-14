@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import base64
 from pathlib import Path
 from typing import List, Dict, Any, Generator
 
@@ -14,13 +15,36 @@ APP_TITLE = "Gotham Assistant"
 DATA_DIR = Path(".cache")
 DATA_DIR.mkdir(exist_ok=True)
 
-# ---------- Personal profile (facts for better answers) ----------
+# ---------- Personal profile (updated: no longer a student) ----------
 PROFILE = {
-    "headline": "Data & insights professional who builds useful AI tools.",
-    "roles": ["Analyst at Reach3 Insights", "Builder of Gotham Assistant"],
-    "skills": ["Python", "Streamlit", "LLM prompting", "Market research", "Storytelling"],
-    "projects": ["Gotham Assistant (this app)", "Survey automation tools", "Insight dashboards"],
-    "positioning": "Turns complex data into clear, actionable recommendations."
+    "headline": "Data & AI professional with a foundation in research, analytics, and technology-driven strategy.",
+    "roles": [
+        "Research Consultant at Reach3 Insights",
+        "Co-founder of an e-commerce brand ranked #10 on Amazon India"
+    ],
+    "specialties": [
+        "Data Analysis", "AI & Automation", "Market Research",
+        "Visualization", "Product Strategy"
+    ],
+    "skills": [
+        "Python", "Streamlit", "SQL", "Power BI",
+        "Machine Learning", "Q Research Software"
+    ],
+    "education": [
+        "Applied AI Solutions Development – George Brown College (2025)",
+        "Data Science Certificate – Brain Station (2023)",
+        "Research Analyst Program – Humber College (2022)",
+        "B.Com (Financial Markets) – Mumbai University (2017)"
+    ],
+    "entrepreneurial_experience": (
+        "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN, "
+        "sharpening expertise in market dynamics, pricing strategy, and automation."
+    ),
+    "positioning": (
+        "Combines business acumen with analytical depth to turn complex data "
+        "into clear, actionable decisions."
+    ),
+    "focus": "Building scalable, AI-driven systems that deliver measurable impact."
 }
 
 def _join(arr):
@@ -30,9 +54,12 @@ def build_profile_block(p: dict) -> str:
     return (
         f"Headline: {p.get('headline','')}\n"
         f"Roles: {_join(p.get('roles',[]))}\n"
+        f"Specialties: {_join(p.get('specialties',[]))}\n"
         f"Core skills: {_join(p.get('skills',[]))}\n"
-        f"Flagship projects: {_join(p.get('projects',[]))}\n"
-        f"Positioning: {p.get('positioning','')}"
+        f"Education: {_join(p.get('education',[]))}\n"
+        f"Entrepreneurial experience: {p.get('entrepreneurial_experience','')}\n"
+        f"Positioning: {p.get('positioning','')}\n"
+        f"Focus: {p.get('focus','')}"
     )
 
 # =====================
@@ -120,7 +147,7 @@ def clean_response(txt: str, last_answer: str | None) -> str:
     txt = BLANKS_RE.sub("\n\n", txt).strip()
     if last_answer and txt.strip() == last_answer.strip():
         txt = ("Here’s a quicker angle:\n"
-               "- I’m Gotham’s AI assistant.\n"
+               "- I’m Gotham’s AI résumé.\n"
                "- I showcase skills, projects, and how I solve problems.\n"
                "- Ask about background, projects, or an example deliverable.")
     return txt
@@ -139,6 +166,7 @@ def build_api_messages(user_text: str, context_block: str, template_msg: str, hi
     return messages
 
 def stream_chat_completion(messages: List[Dict[str, str]]) -> str:
+    """Stream from the API but buffer text; return a single final string (no double rendering)."""
     try:
         stream = client.chat.completions.create(
             model=st.session_state["openai_model"],
@@ -166,7 +194,21 @@ st.title(APP_TITLE)
 # Friendly intro on first load
 st.session_state.setdefault("messages", [])
 if not st.session_state["messages"]:
-    st.info("👋 I’m Gotham's Assistant — an interactive assistant. Ask about my background, skills, projects, or how I solve problems.")
+    st.info("👋 I’m Gotham Assistant — an interactive résumé. Ask about my background, skills, projects, or how I solve problems.")
+
+# ---------- Résumé download ----------
+RESUME_PATH = Path("Gotham_Tikyani_Resume.pdf")
+if RESUME_PATH.exists():
+    with open(RESUME_PATH, "rb") as f:
+        st.download_button(
+            label="📄 Download my résumé",
+            data=f,
+            file_name=RESUME_PATH.name,
+            mime="application/pdf",
+            help="Download Gotham Tikyani’s résumé (PDF)"
+        )
+else:
+    st.warning("Résumé file not found — please upload Gotham_Tikyani_Resume.pdf to the app folder.")
 
 with st.sidebar:
     st.subheader("Settings")
@@ -190,6 +232,10 @@ with st.sidebar:
         st.rerun()
 
     st.caption("Known clients loaded from secrets: KNOWN_CLIENTS")
+
+# Optional: show exactly what the bot “knows”
+with st.expander("🔎 What Gotham Assistant knows about me"):
+    st.code(json.dumps(PROFILE, indent=2, ensure_ascii=False), language="json")
 
 # Optional side context/template
 with st.expander("Optional: Add context for the model"):
@@ -222,7 +268,6 @@ if user_text:
     )
 
     with st.chat_message("assistant"):
-        response_chunks = stream_chat_completion(api_messages)
         raw = stream_chat_completion(api_messages) or ""
 
         if anonymize_clients:
