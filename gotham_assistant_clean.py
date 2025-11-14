@@ -120,7 +120,7 @@ def clean_response(txt: str, last_answer: str | None) -> str:
     txt = BLANKS_RE.sub("\n\n", txt).strip()
     if last_answer and txt.strip() == last_answer.strip():
         txt = ("Here’s a quicker angle:\n"
-               "- I’m Gotham’s AI résumé.\n"
+               "- I’m Gotham’s AI assistant.\n"
                "- I showcase skills, projects, and how I solve problems.\n"
                "- Ask about background, projects, or an example deliverable.")
     return txt
