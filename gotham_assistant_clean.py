@@ -14,6 +14,27 @@ APP_TITLE = "Gotham Assistant"
 DATA_DIR = Path(".cache")
 DATA_DIR.mkdir(exist_ok=True)
 
+# ---------- Personal profile (facts for better answers) ----------
+PROFILE = {
+    "headline": "Data & insights professional who builds useful AI tools.",
+    "roles": ["Analyst at Reach3 Insights", "Builder of Gotham Assistant"],
+    "skills": ["Python", "Streamlit", "LLM prompting", "Market research", "Storytelling"],
+    "projects": ["Gotham Assistant (this app)", "Survey automation tools", "Insight dashboards"],
+    "positioning": "Turns complex data into clear, actionable recommendations."
+}
+
+def _join(arr):
+    return ", ".join(arr) if arr else ""
+
+def build_profile_block(p: dict) -> str:
+    return (
+        f"Headline: {p.get('headline','')}\n"
+        f"Roles: {_join(p.get('roles',[]))}\n"
+        f"Core skills: {_join(p.get('skills',[]))}\n"
+        f"Flagship projects: {_join(p.get('projects',[]))}\n"
+        f"Positioning: {p.get('positioning','')}"
+    )
+
 # =====================
 # API Setup (Groq)
 # =====================
@@ -26,7 +47,6 @@ client = OpenAI(
     api_key=GROQ_API_KEY,
     base_url="https://api.groq.com/openai/v1"
 )
-
 
 # =====================
 # Utilities
@@ -82,23 +102,38 @@ def redact_pii(text: str) -> str:
 # =====================
 SYSTEM_PROMPT = (
     "You are Gotham Assistant — a personal AI version of Gotham Tikyani. "
-    "Your purpose is to introduce Gotham’s professional background, skills, and achievements in a natural, conversational way. "
-    "Sound friendly, confident, and articulate — like someone presenting their personal brand. "
-    "Avoid sounding robotic or overly formal. "
-    "Use storytelling, examples, and clear explanations. "
-    "If someone asks about Gotham, treat it as a question about the person, not a company or fictional city. "
-    "When appropriate, invite follow-up questions about Gotham’s experience, projects, or goals."
+    "Your job is to present Gotham’s background, skills, projects, and achievements as an interactive résumé. "
+    "Be friendly, confident, and concise (3–6 sentences unless asked for more). "
+    "Never output placeholders like [insert ...] or TODOs; if info is missing, ask one brief clarifying question instead. "
+    "If the user repeats a question, do NOT repeat your previous answer verbatim — give a shorter, fresh angle. "
+    "When someone says 'Tell me about Gotham', treat it as the person, not the city from comics."
 )
 
+# ---------- Output cleaner to remove placeholders + avoid verbatim repeats ----------
+PLACEHOLDER_RE = re.compile(r"\[insert[^]]*\]", re.IGNORECASE)
+BLANKS_RE = re.compile(r"\n{3,}")
 
-
+def clean_response(txt: str, last_answer: str | None) -> str:
+    if not isinstance(txt, str):
+        return txt
+    txt = PLACEHOLDER_RE.sub("", txt)
+    txt = BLANKS_RE.sub("\n\n", txt).strip()
+    if last_answer and txt.strip() == last_answer.strip():
+        txt = ("Here’s a quicker angle:\n"
+               "- I’m Gotham’s AI résumé.\n"
+               "- I showcase skills, projects, and how I solve problems.\n"
+               "- Ask about background, projects, or an example deliverable.")
+    return txt
 
 def build_api_messages(user_text: str, context_block: str, template_msg: str, history: List[Dict[str, str]]):
     messages: List[Dict[str, str]] = [{"role": "system", "content": SYSTEM_PROMPT}]
+    # Always include the personal profile so the model has concrete facts
+    messages.append({"role": "system", "content": "Personal profile:\n" + build_profile_block(PROFILE)})
+
     if context_block:
-        messages.append({"role": "system", "content": f"Context for the task:\\n{context_block}"})
+        messages.append({"role": "system", "content": f"Context for the task:\n{context_block}"})
     if template_msg:
-        messages.append({"role": "system", "content": f"Follow this format when applicable:\\n{template_msg}"})
+        messages.append({"role": "system", "content": f"Follow this format when applicable:\n{template_msg}"})
     messages.extend(history)
     messages.append({"role": "user", "content": user_text})
     return messages
@@ -109,7 +144,7 @@ def stream_chat_completion(messages: List[Dict[str, str]]) -> Generator[str, Non
             model=st.session_state["openai_model"],
             messages=messages,
             stream=True,
-            temperature=st.session_state.get("temperature", 0.3),
+            temperature=st.session_state.get("temperature", 0.5),
         )
         for chunk in stream:
             if chunk.choices and chunk.choices[0].delta and chunk.choices[0].delta.content:
@@ -125,19 +160,25 @@ def stream_chat_completion(messages: List[Dict[str, str]]) -> Generator[str, Non
 st.set_page_config(page_title=APP_TITLE, page_icon="🤖")
 st.title(APP_TITLE)
 
+# Friendly intro on first load
+st.session_state.setdefault("messages", [])
+if not st.session_state["messages"]:
+    st.info("👋 I’m Gotham Assistant — an interactive résumé. Ask about my background, skills, projects, or how I solve problems.")
+
 with st.sidebar:
     st.subheader("Settings")
+    # Groq-supported models (as of late 2025)
     st.session_state.setdefault("openai_model", "llama-3.1-8b-instant")
     st.session_state["openai_model"] = st.selectbox(
-    "Model",
-    options=[
-        "llama-3.1-8b-instant",   # best free default
-        "llama-3.3-70b-versatile", # large and powerful
-        "gemma2-9b-it"             # smaller, tuned for instructions
-    ],
-    index=0,
-)
-    st.session_state["temperature"] = st.slider("Temperature", 0.0, 1.0, st.session_state.get("temperature", 0.3))
+        "Model",
+        options=[
+            "llama-3.1-8b-instant",    # fast default
+            "llama-3.3-70b-versatile", # larger, richer
+            "gemma2-9b-it"             # smaller instruction-tuned
+        ],
+        index=0,
+    )
+    st.session_state["temperature"] = st.slider("Temperature", 0.0, 1.0, st.session_state.get("temperature", 0.5))
     anonymize_clients = st.toggle("Anonymize known clients", value=True, help="Redacts configured client names")
     cap_chars = st.number_input("Character cap (0 = off)", min_value=0, max_value=100000, value=0, step=100)
 
@@ -146,9 +187,6 @@ with st.sidebar:
         st.rerun()
 
     st.caption("Known clients loaded from secrets: KNOWN_CLIENTS")
-
-# Load/Init state
-st.session_state.setdefault("messages", [])
 
 # Optional side context/template
 with st.expander("Optional: Add context for the model"):
@@ -173,16 +211,26 @@ if user_text:
     history_only = [m for m in st.session_state["messages"] if m["role"] in ("user", "assistant")]
     trimmed_history = history_only[-MAX_HISTORY_TURNS:]
 
-    api_messages = build_api_messages(user_text=user_text, context_block=context_block, template_msg=template_msg, history=trimmed_history)
+    api_messages = build_api_messages(
+        user_text=user_text,
+        context_block=context_block,
+        template_msg=template_msg,
+        history=trimmed_history
+    )
 
     with st.chat_message("assistant"):
         response_chunks = stream_chat_completion(api_messages)
-        response_text = st.write_stream(response_chunks) or ""
+        raw = st.write_stream(response_chunks) or ""
 
         if anonymize_clients:
-            response_text = anonymize_known_clients(response_text, on=True)
-        response_text = redact_pii(response_text)
-        response_text = soft_clip(response_text, cap_chars)
+            raw = anonymize_known_clients(raw, on=True)
+        raw = redact_pii(raw)
+        raw = soft_clip(raw, cap_chars)
+
+        # Clean placeholders & avoid repeating last answer verbatim
+        last_answer = next((m["content"] for m in reversed(st.session_state["messages"]) if m["role"] == "assistant"), "")
+        response_text = clean_response(raw, last_answer)
+
         st.markdown(response_text)
 
         st.download_button(
