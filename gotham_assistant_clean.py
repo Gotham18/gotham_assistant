@@ -138,7 +138,7 @@ def build_api_messages(user_text: str, context_block: str, template_msg: str, hi
     messages.append({"role": "user", "content": user_text})
     return messages
 
-def stream_chat_completion(messages: List[Dict[str, str]]) -> Generator[str, None, None]:
+def stream_chat_completion(messages: List[Dict[str, str]]) -> str:
     try:
         stream = client.chat.completions.create(
             model=st.session_state["openai_model"],
@@ -146,13 +146,16 @@ def stream_chat_completion(messages: List[Dict[str, str]]) -> Generator[str, Non
             stream=True,
             temperature=st.session_state.get("temperature", 0.5),
         )
+        chunks = []
         for chunk in stream:
-            if chunk.choices and chunk.choices[0].delta and chunk.choices[0].delta.content:
-                yield chunk.choices[0].delta.content
+            delta = getattr(chunk.choices[0], "delta", None)
+            if delta and getattr(delta, "content", None):
+                chunks.append(delta.content)
+        return "".join(chunks)
     except Exception as e:
         st.error("Issue talking to the model. Please try again.")
         st.caption(str(e))
-        return
+        return ""
 
 # =====================
 # UI
@@ -163,7 +166,7 @@ st.title(APP_TITLE)
 # Friendly intro on first load
 st.session_state.setdefault("messages", [])
 if not st.session_state["messages"]:
-    st.info("👋 I’m Gotham Assistant — an interactive résumé. Ask about my background, skills, projects, or how I solve problems.")
+    st.info("👋 I’m Gotham's Assistant — an interactive assistant. Ask about my background, skills, projects, or how I solve problems.")
 
 with st.sidebar:
     st.subheader("Settings")
@@ -220,7 +223,7 @@ if user_text:
 
     with st.chat_message("assistant"):
         response_chunks = stream_chat_completion(api_messages)
-        raw = st.write_stream(response_chunks) or ""
+        raw = stream_chat_completion(api_messages) or ""
 
         if anonymize_clients:
             raw = anonymize_known_clients(raw, on=True)
