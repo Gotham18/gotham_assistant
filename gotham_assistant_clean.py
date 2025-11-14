@@ -44,23 +44,35 @@ PROFILE = {
         "Combines business acumen with analytical depth to turn complex data "
         "into clear, actionable decisions."
     ),
-    "focus": "Building scalable, AI-driven systems that deliver measurable impact."
+    "focus": "Building scalable, AI-driven systems that deliver measurable impact.",
+    "contact": {
+        "linkedin": "https://www.linkedin.com/in/gothamtikyani/",
+        "email": "[Reach out on LinkedIn for opportunities or collaborations.]"
+    }
 }
+
 
 def _join(arr):
     return ", ".join(arr) if arr else ""
 
 def build_profile_block(p: dict) -> str:
+    def j(arr): return ", ".join(arr) if arr else ""
+    contact = p.get("contact", {})
+    linkedin = contact.get("linkedin", "")
+    email = contact.get("email", "")
     return (
         f"Headline: {p.get('headline','')}\n"
-        f"Roles: {_join(p.get('roles',[]))}\n"
-        f"Specialties: {_join(p.get('specialties',[]))}\n"
-        f"Core skills: {_join(p.get('skills',[]))}\n"
-        f"Education: {_join(p.get('education',[]))}\n"
+        f"Roles: {j(p.get('roles',[]))}\n"
+        f"Specialties: {j(p.get('specialties',[]))}\n"
+        f"Core skills: {j(p.get('skills',[]))}\n"
+        f"Education: {j(p.get('education',[]))}\n"
         f"Entrepreneurial experience: {p.get('entrepreneurial_experience','')}\n"
         f"Positioning: {p.get('positioning','')}\n"
-        f"Focus: {p.get('focus','')}"
+        f"Focus: {p.get('focus','')}\n"
+        f"LinkedIn: {linkedin}\n"
+        f"Contact note: {email}"
     )
+
 
 # =====================
 # API Setup (Groq)
@@ -131,10 +143,11 @@ SYSTEM_PROMPT = (
     "You are Gotham Assistant — a personal AI version of Gotham Tikyani. "
     "Your job is to present Gotham’s background, skills, projects, and achievements as an interactive résumé. "
     "Be friendly, confident, and concise (3–6 sentences unless asked for more). "
+    "If someone asks how to contact Gotham, share his LinkedIn profile from the provided data. "
     "Never output placeholders like [insert ...] or TODOs; if info is missing, ask one brief clarifying question instead. "
-    "If the user repeats a question, do NOT repeat your previous answer verbatim — give a shorter, fresh angle. "
     "When someone says 'Tell me about Gotham', treat it as the person, not the city from comics."
 )
+
 
 # ---------- Output cleaner to remove placeholders + avoid verbatim repeats ----------
 PLACEHOLDER_RE = re.compile(r"\[insert[^]]*\]", re.IGNORECASE)
