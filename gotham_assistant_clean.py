@@ -194,21 +194,8 @@ st.title(APP_TITLE)
 # Friendly intro on first load
 st.session_state.setdefault("messages", [])
 if not st.session_state["messages"]:
-    st.info("👋 I’m Gotham Assistant — an interactive résumé. Ask about my background, skills, projects, or how I solve problems.")
+    st.info("👋 I’m Gotham's Assistant — an interactive assistant. Ask about my background, skills, projects, or how I solve problems.")
 
-# ---------- Résumé download ----------
-RESUME_PATH = Path("Gotham_Tikyani_Resume.pdf")
-if RESUME_PATH.exists():
-    with open(RESUME_PATH, "rb") as f:
-        st.download_button(
-            label="📄 Download my résumé",
-            data=f,
-            file_name=RESUME_PATH.name,
-            mime="application/pdf",
-            help="Download Gotham Tikyani’s résumé (PDF)"
-        )
-else:
-    st.warning("Résumé file not found — please upload Gotham_Tikyani_Resume.pdf to the app folder.")
 
 with st.sidebar:
     st.subheader("Settings")
@@ -233,9 +220,6 @@ with st.sidebar:
 
     st.caption("Known clients loaded from secrets: KNOWN_CLIENTS")
 
-# Optional: show exactly what the bot “knows”
-with st.expander("🔎 What Gotham Assistant knows about me"):
-    st.code(json.dumps(PROFILE, indent=2, ensure_ascii=False), language="json")
 
 # Optional side context/template
 with st.expander("Optional: Add context for the model"):
