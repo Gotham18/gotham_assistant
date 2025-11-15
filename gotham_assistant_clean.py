@@ -20,7 +20,7 @@ PROFILE = {
     "headline": "Data & AI professional with a foundation in research, analytics, and technology-driven strategy.",
     "roles": [
         "Research Consultant at Reach3 Insights",
-        "Co-founder of an e-commerce brand ranked #10 on Amazon India"
+        "Co-founder of an e-commerce brand called Nick&jess which ranked #10 on Amazon India in 2019"
     ],
     "specialties": [
         "Data Analysis", "AI & Automation", "Market Research",
@@ -39,6 +39,7 @@ PROFILE = {
     "entrepreneurial_experience": (
         "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN, "
         "sharpening expertise in market dynamics, pricing strategy, and automation."
+        "left the business because I was very young and had limited experience scaling the business post the impact of Covid-19"
     ),
     "positioning": (
         "Combines business acumen with analytical depth to turn complex data "
