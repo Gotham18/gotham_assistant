@@ -39,7 +39,7 @@ PROFILE = {
     "entrepreneurial_experience": (
         "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN, "
         "sharpening expertise in market dynamics, pricing strategy, and automation."
-        "left the business because I was very young and had limited experience scaling the business post the impact of Covid-19"
+        "left the business because I was very young and had limited experience scaling the business post the impact of Covid-19 and so I moved onto working for other companies"
     ),
     "positioning": (
         "Combines business acumen with analytical depth to turn complex data "
