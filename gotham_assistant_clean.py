@@ -42,7 +42,7 @@ PROFILE = {
 ],
 "leadership_experience": [
     "At age 17, served as President of the Rotaract Club of his college.",
-    "Led a 30+ member team, organizing community and skill-development initiatives.",
+    "Led a 150+ member team, organizing community and skill-development initiatives.",
     "Won both Best President and Best Rotaract Club in the same year — a rare achievement.",
     "Continues to mentor young professionals and students, sharing insights on leadership and career growth.",
     "As co-founder of Nick&Jess, demonstrated entrepreneurial leadership by guiding the brand to a #10 ranking on Amazon India."
