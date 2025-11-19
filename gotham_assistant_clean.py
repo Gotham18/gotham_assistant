@@ -41,11 +41,11 @@ PROFILE = {
     "Exited the business after COVID-19 due to limited experience scaling operations, transitioning into analytics and research to build deeper expertise."
 ],
 "leadership_experience": [
-    "At age 17, served as President of the Rotaract Club of his college.",
-    "Led a 150+ member team, organizing community and skill-development initiatives.",
-    "Won both Best President and Best Rotaract Club in the same year — a rare achievement.",
-    "Continues to mentor young professionals and students, sharing insights on leadership and career growth.",
-    "As co-founder of Nick&Jess, demonstrated entrepreneurial leadership by guiding the brand to a #10 ranking on Amazon India."
+    "At age 17, served as President of the Rotaract Club of his college, leading a 150+ member team.",
+    "Organized and led multiple community service and skill-building initiatives during his tenure.",
+    "Received the awards for Best President and Best Rotaract Club in the same year — a rare distinction.",
+    "These experiences laid the foundation for his leadership style — collaborative, empathetic, and results-oriented.",
+    "Later, as co-founder of Nick&Jess, he applied these skills to guide the brand to a #10 ranking on Amazon India."
 ],
 "achievements": [
     "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN.",
