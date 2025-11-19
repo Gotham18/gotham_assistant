@@ -279,43 +279,27 @@ if user_text:
     )
 
     with st.chat_message("assistant"):
-        raw = stream_chat_completion(api_messages) or ""
+    raw = stream_chat_completion(api_messages) or ""
 
-        if anonymize_clients:
-            raw = anonymize_known_clients(raw, on=True)
-        raw = redact_pii(raw)
-        raw = soft_clip(raw, cap_chars)
+    if anonymize_clients:
+        raw = anonymize_known_clients(raw, on=True)
+    raw = redact_pii(raw)
+    raw = soft_clip(raw, cap_chars)
 
-        # Clean placeholders & avoid repeating last answer verbatim
-        last_answer = next((m["content"] for m in reversed(st.session_state["messages"]) if m["role"] == "assistant"), "")
-        response_text = clean_response(raw, last_answer)
+    last_answer = next((m["content"] for m in reversed(st.session_state["messages"]) if m["role"] == "assistant"), "")
+    response_text = clean_response(raw, last_answer)
 
-        st.markdown(response_text)
+    st.markdown(response_text)
 
-        st.download_button(
-            label="Download reply (.md)",
-            data=response_text.encode("utf-8"),
-            file_name="gotham_assistant_reply.md",
-            mime="text/markdown",
-        )
+    st.download_button(
+        label="Download reply (.md)",
+        data=response_text.encode("utf-8"),
+        file_name="gotham_assistant_reply.md",
+        mime="text/markdown",
+    )
 
-    # =====================
-# Disclaimer Footer
-# =====================
-st.markdown(
-    """
-    <hr style="margin-top:2em; margin-bottom:0.5em;">
-    <div style="text-align:center; font-size:0.85em; color:gray;">
-        ⚠️ <b>Disclaimer:</b> This AI assistant represents Gotham Tikyani for informational purposes only.
-        While all responses are generated based using Gotham’s experience, background, and publicly shared information - there could be some discrepancies.
-        For official communication or professional inquiries, please connect via
-        <a href="https://www.linkedin.com/in/gothamtikyani/" target="_blank">LinkedIn</a>.
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-    st.session_state["messages"].extend([
-        {"role": "user", "content": user_text},
-        {"role": "assistant", "content": response_text},
-    ])
+# 👇 this should align with "with st.chat_message(...)"
+st.session_state["messages"].extend([
+    {"role": "user", "content": user_text},
+    {"role": "assistant", "content": response_text},
+])
