@@ -314,7 +314,7 @@ st.markdown(
     <hr style="margin-top:2em; margin-bottom:0.5em;">
     <div style="text-align:center; font-size:0.85em; color:gray;">
         ⚠️ <b>Disclaimer:</b> Gotham Assistant is an AI representation of <b>Gotham Tikyani</b>.
-        All responses are generated from verified information about his background, experience, and public profile.
+        While all responses are generated from verified information about his background, experience, and public profile - there could be some discrepancies.
         For official communication or professional inquiries, please connect via
         <a href="https://www.linkedin.com/in/gothamtikyani/" target="_blank">LinkedIn</a>.
     </div>
