@@ -74,22 +74,27 @@ def _join(arr):
     return ", ".join(arr) if arr else ""
 
 def build_profile_block(p: dict) -> str:
-    def j(arr): return ", ".join(arr) if arr else ""
+    def j(v):
+        if isinstance(v, list):
+            return ", ".join(v)
+        return v or ""
     contact = p.get("contact", {})
-    linkedin = contact.get("linkedin", "")
-    email = contact.get("email", "")
     return (
-        f"Headline: {p.get('headline','')}\n"
-        f"Roles: {j(p.get('roles',[]))}\n"
-        f"Specialties: {j(p.get('specialties',[]))}\n"
-        f"Core skills: {j(p.get('skills',[]))}\n"
-        f"Education: {j(p.get('education',[]))}\n"
-        f"Entrepreneurial experience: {p.get('entrepreneurial_experience','')}\n"
-        f"Positioning: {p.get('positioning','')}\n"
-        f"Focus: {p.get('focus','')}\n"
-        f"LinkedIn: {linkedin}\n"
-        f"Contact note: {email}"
+        f"Headline: {j(p.get('headline'))}\n"
+        f"Roles: {j(p.get('roles', []))}\n"
+        f"Specialties: {j(p.get('specialties', []))}\n"
+        f"Core skills: {j(p.get('skills', []))}\n"
+        f"Education: {j(p.get('education', []))}\n"
+        f"Entrepreneurial experience: {j(p.get('entrepreneurial_experience', []))}\n"
+        f"Leadership experience: {j(p.get('leadership_experience', []))}\n"
+        f"Achievements: {j(p.get('achievements', []))}\n"
+        f"Positioning: {j(p.get('positioning', []))}\n"
+        f"Focus: {j(p.get('focus'))}\n"
+        f"Hobbies: {j(p.get('hobbies_and_interests', []))}\n"
+        f"LinkedIn: {contact.get('linkedin','')}\n"
+        f"Contact note: {contact.get('email','')}"
     )
+
 
 
 # =====================
