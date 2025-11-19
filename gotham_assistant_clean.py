@@ -60,7 +60,7 @@ PROFILE = {
     "Watching and playing Cricket, Football, and Pickleball.",
     "Practicing kickboxing as a fun workout and stress reliever.",
     "A passionate supporter of Liverpool FC.",
-    "Learning and solving Rubik’s Cubes — best time: 2 minutes 12 seconds on a 3x3 cube; planning to master the 4x4 next."
+
 ],
     "contact": {
         "linkedin": "https://www.linkedin.com/in/gothamtikyani/",
