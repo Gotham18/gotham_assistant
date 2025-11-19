@@ -41,6 +41,11 @@ PROFILE = {
         "sharpening expertise in market dynamics, pricing strategy, and automation."
         "left the business because I was very young and had limited experience scaling the business post the impact of Covid-19 and so I moved onto working for other companies"
     ),
+    "achievements": (
+        "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN, "
+        "At the age of 17, he was president of the Rotaract Club of his college."
+        "As President he won Best President and Best Rotaract Club in the same year - which very rarely happens"
+    ),
     "positioning": (
         "Combines business acumen with analytical depth to turn complex data "
         "into clear, actionable decisions."
