@@ -264,6 +264,8 @@ for m in st.session_state["messages"]:
 # Input area
 user_text = st.chat_input("Ask me anything…")
 
+# ... previous code omitted for brevity ...
+
 if user_text:
     with st.chat_message("user"):
         st.markdown(user_text)
@@ -279,27 +281,27 @@ if user_text:
     )
 
     with st.chat_message("assistant"):
-    raw = stream_chat_completion(api_messages) or ""
+        raw = stream_chat_completion(api_messages) or ""
 
-    if anonymize_clients:
-        raw = anonymize_known_clients(raw, on=True)
-    raw = redact_pii(raw)
-    raw = soft_clip(raw, cap_chars)
+        if anonymize_clients:
+            raw = anonymize_known_clients(raw, on=True)
+        raw = redact_pii(raw)
+        raw = soft_clip(raw, cap_chars)
 
-    last_answer = next((m["content"] for m in reversed(st.session_state["messages"]) if m["role"] == "assistant"), "")
-    response_text = clean_response(raw, last_answer)
+        last_answer = next((m["content"] for m in reversed(st.session_state["messages"]) if m["role"] == "assistant"), "")
+        response_text = clean_response(raw, last_answer)
 
-    st.markdown(response_text)
+        st.markdown(response_text)
 
-    st.download_button(
-        label="Download reply (.md)",
-        data=response_text.encode("utf-8"),
-        file_name="gotham_assistant_reply.md",
-        mime="text/markdown",
-    )
+        st.download_button(
+            label="Download reply (.md)",
+            data=response_text.encode("utf-8"),
+            file_name="gotham_assistant_reply.md",
+            mime="text/markdown",
+        )
 
-# 👇 this should align with "with st.chat_message(...)"
-st.session_state["messages"].extend([
-    {"role": "user", "content": user_text},
-    {"role": "assistant", "content": response_text},
-])
+    # 👇 this should align with "with st.chat_message(...)"
+    st.session_state["messages"].extend([
+        {"role": "user", "content": user_text},
+        {"role": "assistant", "content": response_text},
+    ])
