@@ -36,20 +36,20 @@ PROFILE = {
         "Research Analyst Program – Humber College (2022)",
         "B.Com (Financial Markets) – Mumbai University (2017)"
     ],
-    "entrepreneurial_experience": (
+    "entrepreneurial_experience": [
         "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN, "
         "sharpening expertise in market dynamics, pricing strategy, and automation."
         "left the business because I was very young and had limited experience scaling the business post the impact of Covid-19 and so I moved onto working for other companies"
-    ),
-    "achievements": (
+    ],
+    "achievements": [
         "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN, "
         "At the age of 17, he was president of the Rotaract Club of his college."
         "As President he won Best President and Best Rotaract Club in the same year - which very rarely happens"
-    ),
-    "positioning": (
+    ],
+    "positioning": [
         "Combines business acumen with analytical depth to turn complex data "
         "into clear, actionable decisions."
-    ),
+    ],
     "focus": "Building scalable, AI-driven systems that deliver measurable impact.",
     "contact": {
         "linkedin": "https://www.linkedin.com/in/gothamtikyani/",
