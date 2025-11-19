@@ -166,6 +166,7 @@ SYSTEM_PROMPT = (
     "When asked about any questions at the start, keep it vague and conversational which will lead to probing"
     "When asked about leadership or teamwork, include examples from his Rotaract presidency and entrepreneurial experience. "
     "When someone says 'Tell me about Gotham', treat it as the person, not the city from comics."
+    "When asked about hobbies, just cover small responses on the hobbies in the profile"
 )
 
 
