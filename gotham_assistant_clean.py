@@ -299,6 +299,22 @@ if user_text:
             mime="text/markdown",
         )
 
+    # =====================
+# Disclaimer Footer
+# =====================
+st.markdown(
+    """
+    <hr style="margin-top:2em; margin-bottom:0.5em;">
+    <div style="text-align:center; font-size:0.85em; color:gray;">
+        ⚠️ <b>Disclaimer:</b> This AI assistant represents Gotham Tikyani for informational purposes only.
+        While all responses are generated based using Gotham’s experience, background, and publicly shared information - there could be some discrepancies.
+        For official communication or professional inquiries, please connect via
+        <a href="https://www.linkedin.com/in/gothamtikyani/" target="_blank">LinkedIn</a>.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
     st.session_state["messages"].extend([
         {"role": "user", "content": user_text},
         {"role": "assistant", "content": response_text},
