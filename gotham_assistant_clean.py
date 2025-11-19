@@ -305,3 +305,20 @@ if user_text:
         {"role": "user", "content": user_text},
         {"role": "assistant", "content": response_text},
     ])
+
+# =====================
+# Disclaimer Footer
+# =====================
+st.markdown(
+    """
+    <hr style="margin-top:2em; margin-bottom:0.5em;">
+    <div style="text-align:center; font-size:0.85em; color:gray;">
+        ⚠️ <b>Disclaimer:</b> Gotham Assistant is an AI representation of <b>Gotham Tikyani</b>.
+        All responses are generated from verified information about his background, experience, and public profile.
+        For official communication or professional inquiries, please connect via
+        <a href="https://www.linkedin.com/in/gothamtikyani/" target="_blank">LinkedIn</a>.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
