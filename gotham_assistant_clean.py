@@ -20,7 +20,7 @@ PROFILE = {
     "headline": "Data & AI professional with a foundation in research, analytics, and technology-driven strategy.",
     "roles": [
         "Research Consultant at Reach3 Insights",
-        "Co-founder of an e-commerce brand called Nick&jess which ranked #10 on Amazon India in 2019"
+        "Co-founder of an e-commerce brand called Nick&Jess, which ranked #10 on Amazon India in 2019"
     ],
     "specialties": [
         "Data Analysis", "AI & Automation", "Market Research",
@@ -37,18 +37,16 @@ PROFILE = {
         "B.Com (Financial Markets) – Mumbai University (2017)"
     ],
     "entrepreneurial_experience": [
-        "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN, "
-        "sharpening expertise in market dynamics, pricing strategy, and automation."
-        "left the business because I was very young and had limited experience scaling the business post the impact of Covid-19 and so I moved onto working for other companies"
+        "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN, sharpening expertise in market dynamics, pricing strategy, and automation.",
+        "Exited the business after COVID-19 due to limited experience scaling operations, transitioning into analytics and research to build deeper expertise."
     ],
     "achievements": [
-        "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN, "
-        "At the age of 17, he was president of the Rotaract Club of his college."
-        "As President he won Best President and Best Rotaract Club in the same year - which very rarely happens"
+        "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN.",
+        "At age 17, served as President of the Rotaract Club of his college.",
+        "Won both Best President and Best Rotaract Club in the same year — a rare achievement."
     ],
     "positioning": [
-        "Combines business acumen with analytical depth to turn complex data "
-        "into clear, actionable decisions."
+        "Combines business acumen with analytical depth to turn complex data into clear, actionable decisions."
     ],
     "focus": "Building scalable, AI-driven systems that deliver measurable impact.",
     "contact": {
@@ -56,6 +54,7 @@ PROFILE = {
         "email": "[Reach out on LinkedIn for opportunities or collaborations.]"
     }
 }
+
 
 
 def _join(arr):
