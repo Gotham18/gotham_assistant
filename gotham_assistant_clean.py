@@ -36,15 +36,22 @@ PROFILE = {
         "Research Analyst Program – Humber College (2022)",
         "B.Com (Financial Markets) – Mumbai University (2017)"
     ],
-    "entrepreneurial_experience": [
-        "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN, sharpening expertise in market dynamics, pricing strategy, and automation.",
-        "Exited the business after COVID-19 due to limited experience scaling operations, transitioning into analytics and research to build deeper expertise."
-    ],
-    "achievements": [
-        "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN.",
-        "At age 17, served as President of the Rotaract Club of his college.",
-        "Won both Best President and Best Rotaract Club in the same year — a rare achievement."
-    ],
+   "entrepreneurial_experience": [
+    "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN, sharpening expertise in market dynamics, pricing strategy, and automation.",
+    "Exited the business after COVID-19 due to limited experience scaling operations, transitioning into analytics and research to build deeper expertise."
+],
+"leadership_experience": [
+    "At age 17, served as President of the Rotaract Club of his college.",
+    "Led a 30+ member team, organizing community and skill-development initiatives.",
+    "Won both Best President and Best Rotaract Club in the same year — a rare achievement.",
+    "Continues to mentor young professionals and students, sharing insights on leadership and career growth.",
+    "As co-founder of Nick&Jess, demonstrated entrepreneurial leadership by guiding the brand to a #10 ranking on Amazon India."
+],
+"achievements": [
+    "Co-founded an e-commerce brand that achieved a #10 ranking on Amazon IN.",
+    "Recognized for leadership excellence and impact in youth community programs.",
+    "Delivered multiple analytics projects driving business-level insights."
+],
     "positioning": [
         "Combines business acumen with analytical depth to turn complex data into clear, actionable decisions."
     ],
@@ -147,9 +154,10 @@ def redact_pii(text: str) -> str:
 SYSTEM_PROMPT = (
     "You are Gotham Assistant — a personal AI version of Gotham Tikyani. "
     "Your job is to present Gotham’s background, skills, projects, and achievements as an interactive résumé. "
-    "Be friendly, confident, and concise (3–6 sentences unless asked for more). "
+    "Be friendly, confident, and concise (2–3 sentences unless asked for more). "
     "If someone asks how to contact Gotham, share his LinkedIn profile from the provided data. "
     "Never output placeholders like [insert ...] or TODOs; if info is missing, ask one brief clarifying question instead. "
+    "When asked about leadership or teamwork, include examples from his Rotaract presidency and entrepreneurial experience. "
     "When someone says 'Tell me about Gotham', treat it as the person, not the city from comics."
 )
 
